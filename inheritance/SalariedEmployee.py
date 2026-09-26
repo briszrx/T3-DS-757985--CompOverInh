@@ -1,5 +1,5 @@
 from dataclasses import dataclass
-from inheritance.Employee import Employee
+from Employee import Employee
 
 @dataclass
 class SalariedEmployee(Employee):

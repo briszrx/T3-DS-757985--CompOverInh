@@ -1,6 +1,6 @@
 
 from dataclasses import dataclass
-from inheritance.Employee import Freelancer
+from freelancer import Freelancer
 
 @dataclass
 class FreelancerWithCommission(Freelancer):

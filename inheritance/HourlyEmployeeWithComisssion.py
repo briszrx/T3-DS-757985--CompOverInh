@@ -1,7 +1,7 @@
 
 
 from dataclasses import dataclass
-from inheritance.Employee import Employee, HourlyEmployee
+from HourlyEmployee import HourlyEmployee
 
 @dataclass
 class HourlyEmployeeWithCommission(HourlyEmployee):
