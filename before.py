@@ -2,88 +2,66 @@
 Very advanced Employee management system.
 """
 
-from abc import ABC, abstractmethod
 from dataclasses import dataclass
 
 
 @dataclass
-class Employee(ABC):
-    """Basic representation of an employee at the company."""
+class HourlyEmployee:
+    """Employee that's paid based on number of worked hours."""
 
     name: str
     id: int
-
-    @abstractmethod
-    def compute_pay(self) -> float:
-        """Compute how much the employee should be paid."""
-
-
-@dataclass
-class HourlyEmployee(Employee):
-    """Employee that's paid based on number of worked hours."""
-
-    pay_rate: float
+    commission: float = 100
+    contracts_landed: float = 0
+    pay_rate: float = 0
     hours_worked: int = 0
     employer_cost: float = 1000
 
     def compute_pay(self) -> float:
-        return self.pay_rate * self.hours_worked + self.employer_cost
+        """Compute how much the employee should be paid."""
+        return (
+            self.pay_rate * self.hours_worked
+            + self.employer_cost
+            + self.commission * self.contracts_landed
+        )
 
 
 @dataclass
-class SalariedEmployee(Employee):
+class SalariedEmployee:
     """Employee that's paid based on a fixed monthly salary."""
 
-    monthly_salary: float
+    name: str
+    id: int
+    commission: float = 100
+    contracts_landed: float = 0
+    monthly_salary: float = 0
     percentage: float = 1
 
     def compute_pay(self) -> float:
-        return self.monthly_salary * self.percentage
+        """Compute how much the employee should be paid."""
+        return (
+            self.monthly_salary * self.percentage
+            + self.commission * self.contracts_landed
+        )
 
 
 @dataclass
-class Freelancer(Employee):
+class Freelancer:
     """Freelancer that's paid based on number of worked hours."""
 
-    pay_rate: float
+    name: str
+    id: int
+    commission: float = 100
+    contracts_landed: float = 0
+    pay_rate: float = 0
     hours_worked: int = 0
     vat_number: str = ""
 
     def compute_pay(self) -> float:
-        return self.pay_rate * self.hours_worked
-
-
-@dataclass
-class SalariedEmployeeWithCommission(SalariedEmployee):
-    """Employee that's paid based on a fixed monthly salary and that gets a commission."""
-
-    commission: float = 100
-    contracts_landed: float = 0
-
-    def compute_pay(self) -> float:
-        return super().compute_pay() + self.commission * self.contracts_landed
-
-
-@dataclass
-class HourlyEmployeeWithCommission(HourlyEmployee):
-    """Employee that's paid based on number of worked hours and that gets a commission."""
-
-    commission: float = 100
-    contracts_landed: float = 0
-
-    def compute_pay(self) -> float:
-        return super().compute_pay() + self.commission * self.contracts_landed
-
-
-@dataclass
-class FreelancerWithCommission(Freelancer):
-    """Freelancer that's paid based on number of worked hours and that gets a commission."""
-
-    commission: float = 100
-    contracts_landed: float = 0
-
-    def compute_pay(self) -> float:
-        return super().compute_pay() + self.commission * self.contracts_landed
+        """Compute how much the employee should be paid."""
+        return (
+            self.pay_rate * self.hours_worked + self.commission * self.contracts_landed
+        )
 
 
 def main() -> None:
@@ -94,7 +72,7 @@ def main() -> None:
         f"{henry.name} worked for {henry.hours_worked} hours and earned ${henry.compute_pay()}."
     )
 
-    sarah = SalariedEmployeeWithCommission(
+    sarah = SalariedEmployee(
         name="Sarah", id=47832, monthly_salary=5000, contracts_landed=10
     )
     print(
@@ -104,3 +82,4 @@ def main() -> None:
 
 if __name__ == "__main__":
     main()
+
